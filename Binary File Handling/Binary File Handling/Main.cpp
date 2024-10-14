@@ -24,15 +24,38 @@ int main()
 	//close the open file
 	outfile.close();
 	system("pause");*/
-	int myarray = 50;
-	string mystring = "connor";
+				//Saves a list of player names, scores, times and dates to a binary file 
+	int sizeOfName = 5;
+	string *nameArray = new string[sizeOfName];
 	string data;
+	
+	//int *array = new int[size];
+	//string nameArray[sizeOfName];
+	//cout << "write a name\n";
+	/*for (int i = 0; i < sizeOfName; i++)
+	{
+		cin >> nameArray[i];
+	}
+	
+	for (int i = 0; i < sizeOfName; i++)
+	{
+		cout << nameArray[i] << endl;
+		//cout << sizeOfName << endl;
+		
+	}*/
+	
+	/*string data;
 	const char* buffer = new char;
 	//opens a file in write mode
 	ofstream outfile;
 	outfile.open("HighScores.dat", ios::out | ios::binary);
 
-	outfile.write((char*)&mystring, sizeof(string));
+	
+	for (int i = 0; i < sizeOfName; i++)
+	{
+		cin >> nameArray[i];
+		outfile.write((char*)&nameArray[i], sizeof(string));
+	}
 
 	outfile.close();
 
@@ -71,6 +94,55 @@ int main()
 		fin.close();
 	}
 	system("pause");*/
+
+	string answer;
+	cout << "write 'view' to view current Hichscores, 'append' to add a new record, 'retrieve' to search a highcore by name:\n";
+	cin >> answer; cout << endl;
+	if (answer == "view")
+	{
+		cout << "Current Highscores:\n";
+		//displays highscores in ascending order
+		ifstream infile;
+		infile.open("HighScores.dat", ios::in | ios::binary);
+
+		while (!infile.eof() && infile.peek() != EOF) {
+			infile.read((char*)&data, sizeof(string));
+			cout << data << endl;
+		}
+		infile.close();
+		
+		cout << "Anything else?\n";
+		cin >> answer; cout << endl;
+	}
+	else if (answer == "append")
+	{
+		cout << "wrtie name of new Highscore:\n";
+		string test;
+		ofstream outfile;
+		outfile.open("HighScores.dat", ios::out | ios::binary | ios::app);
+		
+		sizeOfName += 1;
+		cin >> test;
+		nameArray[sizeOfName] = test;
+		outfile.write((char*)&nameArray[sizeOfName], sizeof(string));
+
+		cout << sizeOfName; // for debugging 
+		
+		outfile.close();
+		
+		cout << "Anything else?\n";
+		cin >> answer; cout << endl;
+	}
+	else if (answer == "retrieve")
+	{
+
+	}
+	else
+	{
+
+	}
+
+	return 69;
 }
 
 		
