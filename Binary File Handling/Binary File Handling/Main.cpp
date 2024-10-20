@@ -25,9 +25,11 @@ int main()
 	outfile.close();
 	system("pause");*/
 				//Saves a list of player names, scores, times and dates to a binary file 
-	int sizeOfName = 5;
-	string *nameArray = new string[sizeOfName];
+	int sizeOfName = 0;
+	string* nameArray = new string[sizeOfName];
 	string data;
+
+
 	
 	//int *array = new int[size];
 	//string nameArray[sizeOfName];
@@ -112,26 +114,49 @@ int main()
 		infile.close();
 		
 		cout << "Anything else?\n";
-		cin >> answer; cout << endl;
+		main();
 	}
 	else if (answer == "append")
 	{
 		cout << "wrtie name of new Highscore:\n";
 		string test;
 		ofstream outfile;
-		outfile.open("HighScores.dat", ios::out | ios::binary | ios::app);
-		
-		sizeOfName += 1;
-		cin >> test;
-		nameArray[sizeOfName] = test;
-		outfile.write((char*)&nameArray[sizeOfName], sizeof(string));
+		outfile.open("HighScores.dat", ios::binary | ios::out | ios::app);
 
-		cout << sizeOfName; // for debugging 
+		//error handling if file dosent open
+		if (!outfile)
+		{
+			cerr << "Error OPening file" << endl;
+		}
+		
+		//cout << "Write name of new highscore" << endl;
+		cin >> test;
+		string* newString = new string[sizeOfName + 1];
+		for (int i = 0; i < sizeOfName; i++)
+		{
+			newString[i] = nameArray[i];
+		}
+		newString[sizeOfName] = test;
+		delete[] nameArray;
+		sizeOfName += 1;
+		nameArray = newString;
+		
+		for (int i = 0; i < sizeOfName; i++)
+		{
+			outfile.write((char*)&nameArray[i], sizeof(string));
+		}
+		for (int i = 0; i < sizeOfName; i++)
+		{
+			cout << nameArray[i] << endl;
+		}
+		
+		
 		
 		outfile.close();
+
 		
 		cout << "Anything else?\n";
-		cin >> answer; cout << endl;
+		main();
 	}
 	else if (answer == "retrieve")
 	{
